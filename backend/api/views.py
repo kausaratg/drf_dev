@@ -8,30 +8,11 @@ from products.serializers import ProductSerializer
 
 @api_view(['POST'])
 def api_home(request, *args, **kwargs):
-    # print(request.GET)
-    # body = request.body
-    # data = {}
-    # try:
-    #     data = json.loads(body)
-    # except:
-    #     pass
-    # print(data)
-    # data['params'] = dict(request.GET)
-    # data['headers'] = dict(request.headers)
-    # print(request.headers)
-    # data['content_type'] = request.content_type
-    # # return JsonResponse({"message": "Hi there this is your django api response"})
-    # return JsonResponse(data)
-    # if request.method != "POST":
-    #     return Response({"detail":'Get not allowed'}, status=405)
     data = request.data
     serializer = ProductSerializer(data=request.data)
-    if serializer.is_valid():
-        # data = serializer.save()
+    if serializer.is_valid(raise_exception=True):
+        data = serializer.save()
         print(serializer.data)
         return Response(serializer.data)
-    # instance = Product.objects.all().order_by("?").last()
-    # data = {}
-    # if instance:
-    #     data = ProductSerializer(instance).data
-    # return Response(data)
+    return Response({"invalid":"response not okay"}, status=400)
+

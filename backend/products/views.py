@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view
 from django.http import Http404
+from products.permissions import IsStaffEditorPermission
 
 
 class ProductCreateListAPIView(generics.ListCreateAPIView):
@@ -13,7 +14,7 @@ class ProductCreateListAPIView(generics.ListCreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     authentication_classes = (authentication.SessionAuthentication,)
-    permission_classes = [permissions.DjangoModelPermissions]
+    permission_classes = [IsStaffEditorPermission]
     
     def perform_create(self, serializer):
         print(serializer.validated_data)
